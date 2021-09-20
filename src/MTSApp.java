@@ -2,11 +2,18 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.GridLayout;
+
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -45,58 +52,74 @@ public class MTSApp {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 630, 470);
+		frame.setBounds(250, 250, 630, 470);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JLabel loginLabel = new JLabel("Student Login");
+		JLabel loginLabel = new JLabel("Login"); //label used as header for the login GUI
+		loginLabel.setSize(new Dimension(400, 400));
 		loginLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
 		loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		frame.getContentPane().add(loginLabel);
+		frame.add(loginLabel);
 		
-		JLabel idLabel = new JLabel("ID:");
+		JLabel idLabel = new JLabel("ID:"); //label for user_ID text field
+		idLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		frame.getContentPane().add(idLabel);
+		idLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.add(idLabel);
 		
-		idTextField = new JTextField();
+		idTextField = new JTextField(); //textfield to input user_ID
 		idTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		frame.getContentPane().add(idTextField);
+		idTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.add(idTextField);
 		idTextField.setColumns(10);
 		
-		JLabel pwdLabel = new JLabel("Password:");
+		JLabel pwdLabel = new JLabel("Password:"); //label for password text field
+		pwdLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		pwdLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		frame.getContentPane().add(pwdLabel);
+		pwdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.add(pwdLabel);
 		
-		pwdTextField = new JTextField();
-		frame.getContentPane().add(pwdTextField);
+		pwdTextField = new JTextField(); //text field to input password
+		pwdTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.add(pwdTextField);
 		pwdTextField.setColumns(10);
 		
-		JButton loginButton = new JButton("Login");
+		JButton loginButton = new JButton("Login"); //Login button for students
+		loginButton.setSize(250,30);
 		loginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String idString = idTextField.getText();
 				String pwdString = pwdTextField.getText();
-				MTSDriver.printLogin(idString, pwdString);
+				MTSDriver.printLogin(idString, pwdString); //Make sure to replace this with a proper student login method
 			}
 		});
-		frame.getContentPane().add(loginButton);
+		loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.add(loginButton);
 		
-		JButton teacherLoginButton = new JButton("Teacher Login");
+		JButton teacherLoginButton = new JButton("Teacher Login"); //login button for teachers
+		teacherLoginButton.setSize(250,30);
 		teacherLoginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//Insert method call here (Teacher Login Method)
 			}
 		});
-		frame.getContentPane().add(teacherLoginButton);
+		teacherLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.add(teacherLoginButton);
 		
-		JButton registerButton = new JButton("Register");
+		JButton registerButton = new JButton("Register"); //register button
+		registerButton.setSize(250,30);
 		registerButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//Insert method call here (Registration Method)
 			}
 		});
-		frame.getContentPane().add(registerButton);
+		registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.add(registerButton);
+		
 	}
 
 }
