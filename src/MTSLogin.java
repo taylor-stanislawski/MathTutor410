@@ -18,7 +18,7 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MTSApp {
+public class MTSLogin {
 
 	private JFrame frame;
 	private JTextField idTextField;
@@ -31,7 +31,7 @@ public class MTSApp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MTSApp window = new MTSApp();
+					MTSLogin window = new MTSLogin();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,7 +43,7 @@ public class MTSApp {
 	/**
 	 * Create the application.
 	 */
-	public MTSApp() {
+	public MTSLogin() {
 		initialize();
 	}
 
@@ -54,38 +54,40 @@ public class MTSApp {
 		frame = new JFrame();
 		frame.setBounds(250, 250, 630, 470);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		
 		JLabel loginLabel = new JLabel("Login"); //label used as header for the login GUI
 		loginLabel.setSize(new Dimension(400, 400));
 		loginLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
 		loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		frame.add(loginLabel);
+		frame.getContentPane().add(loginLabel);
 		
 		JLabel idLabel = new JLabel("ID:"); //label for user_ID text field
-		idLabel.setHorizontalTextPosition(SwingConstants.LEFT);
+		idLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		idLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.add(idLabel);
+		frame.getContentPane().add(idLabel);
 		
 		idTextField = new JTextField(); //textfield to input user_ID
+		idTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		idTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		idTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.add(idTextField);
+		frame.getContentPane().add(idTextField);
 		idTextField.setColumns(10);
 		
 		JLabel pwdLabel = new JLabel("Password:"); //label for password text field
-		pwdLabel.setHorizontalTextPosition(SwingConstants.LEFT);
+		pwdLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		pwdLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		pwdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.add(pwdLabel);
+		frame.getContentPane().add(pwdLabel);
 		
 		pwdTextField = new JTextField(); //text field to input password
+		pwdTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		pwdTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.add(pwdTextField);
+		frame.getContentPane().add(pwdTextField);
 		pwdTextField.setColumns(10);
 		
-		JButton loginButton = new JButton("Login"); //Login button for students
+		JButton loginButton = new JButton("I am a Student"); //Login button for students
 		loginButton.setSize(250,30);
 		loginButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -96,9 +98,9 @@ public class MTSApp {
 			}
 		});
 		loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.add(loginButton);
+		frame.getContentPane().add(loginButton);
 		
-		JButton teacherLoginButton = new JButton("Teacher Login"); //login button for teachers
+		JButton teacherLoginButton = new JButton("I am a Teacher"); //login button for teachers
 		teacherLoginButton.setSize(250,30);
 		teacherLoginButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -107,7 +109,7 @@ public class MTSApp {
 			}
 		});
 		teacherLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.add(teacherLoginButton);
+		frame.getContentPane().add(teacherLoginButton);
 		
 		JButton registerButton = new JButton("Register"); //register button
 		registerButton.setSize(250,30);
@@ -118,7 +120,7 @@ public class MTSApp {
 			}
 		});
 		registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.add(registerButton);
+		frame.getContentPane().add(registerButton);
 		
 	}
 
