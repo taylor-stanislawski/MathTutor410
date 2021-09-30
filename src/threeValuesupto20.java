@@ -190,7 +190,7 @@ public class threeValuesupto20 {
 							frame.revalidate();
 							frame.repaint();
 							frame.dispose();
-							counter(rand, rand1, rand2);									
+							counter(rand, rand1, rand2);
 					    }
 					};
 					
@@ -204,9 +204,10 @@ public class threeValuesupto20 {
 				frame.revalidate();
 				frame.repaint();
 				frame.dispose();
-
+				
+				if (ans!=-40) {
 				cCheckAns(rand, rand1, rand2, ans);//run through cCheckAns
-			
+				}
 		    }
 		};
 		enterButton.addActionListener(action);
