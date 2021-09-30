@@ -14,19 +14,173 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+import javax.swing.JRadioButton;
 
 public class MTSLogin {
 
 	private JFrame frame;
 	private JTextField idTextField;
 	private JTextField pwdTextField;
+	
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost/";
+    
+    //open connection to the database
+    public static Connection conn = null;
+    public static Statement stmt = null;
+    public static ResultSet rs = null;
+    public static ResultSet rs2 = null;
+
 
 	/**
-	 * Launch the application.
+	 * Create the application.
 	 */
+	
+	
+	public MTSLogin() {
+		initialize();
+	}
+	
+	public static void studentLogin(int S_ID, String pass) {
+        
+        try {
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY);
+            rs = stmt.executeQuery("SELECT * FROM tutor.student WHERE " +
+                                   "S_ID = " + S_ID + " AND pass = '" + pass + "'");
+            while(rs.next()) {
+                System.out.println("Welcome " + rs.getString("firstName") + " " + rs.getString("lastName") );
+            }
+            
+    
+        } catch (SQLException e) {
+            //print SQL errors
+            e.printStackTrace();
+        }
+    }
+
+	public static void printLogin(String str1, String str2) {
+		System.out.println("ID: " + str1 + "\nPWD: " + str2);
+	}
+	
+	private static void register(String firstName, String lastName, int grade ) {
+        int latestID = 0;
+
+        try {
+                stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY);
+            rs = stmt.executeQuery("SELECT S_ID FROM tutor.student order by S_ID");
+            while(rs.next()) {
+                latestID=rs.getInt("S_ID");
+            }
+            
+            stmt.execute("insert into tutor.student " + 
+                         "values('"  + firstName + "','" + lastName + "','" + (latestID+1) + "','" +   grade + "')" );
+        } catch (SQLException e) {
+            //print SQL errors
+            e.printStackTrace();
+        }
+    }
+	
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(250, 250, 630, 470);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+		
+		//label used as header for the login GUI
+		JLabel loginLabel = new JLabel("Login"); 
+		loginLabel.setSize(new Dimension(400, 400));
+		loginLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		frame.getContentPane().add(loginLabel);
+		
+		//label for user_ID text field
+		JLabel idLabel = new JLabel("ID:"); 
+		idLabel.setHorizontalTextPosition(SwingConstants.LEFT);
+		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		idLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.getContentPane().add(idLabel);
+		
+		//text field to input user_ID
+		idTextField = new JTextField(); 
+		idTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		idTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.getContentPane().add(idTextField);
+		idTextField.setColumns(10);
+		
+		//label for password text field
+		JLabel pwdLabel = new JLabel("Password:"); 
+		pwdLabel.setHorizontalTextPosition(SwingConstants.LEFT);
+		pwdLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		pwdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.getContentPane().add(pwdLabel);
+		
+		//text field to input password
+		pwdTextField = new JTextField(); 
+		pwdTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.getContentPane().add(pwdTextField);
+		pwdTextField.setColumns(10);
+		
+		//Login button for students
+		JButton loginButton = new JButton("Login"); 
+		loginButton.setSize(250,30);
+		loginButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String idString = idTextField.getText();
+				Scanner sc = new Scanner(idString);
+				int idInt = sc.nextInt();
+				String pwdString = pwdTextField.getText();
+				studentLogin(idInt, pwdString);
+			}
+		});
+		loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.getContentPane().add(loginButton);
+		
+		//register button
+		JButton registerButton = new JButton("Register"); 
+		registerButton.setSize(250,30);
+		registerButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//Insert method call here (Registration Method)
+				MTSRegister window = new MTSRegister();
+				window.frame.setVisible(true);
+			}
+		});
+		registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.getContentPane().add(registerButton);
+		
+		JRadioButton teacherRadioButton = new JRadioButton("I am a teacher");
+		teacherRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
+		frame.getContentPane().add(teacherRadioButton);
+		
+		JRadioButton studentRadioButton = new JRadioButton("I am a student");
+		studentRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
+		studentRadioButton.setSelected(true);
+		frame.getContentPane().add(studentRadioButton);
+		
+		ButtonGroup group = new ButtonGroup();
+		group.add(teacherRadioButton);
+		group.add(studentRadioButton);
+		
+	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -38,90 +192,28 @@ public class MTSLogin {
 				}
 			}
 		});
-	}
+		
+		String dbuser = args[0];
+		String dbpass = args[1];
+		
+		try {
+            //establish connection to database
+            System.out.println("Connecting to database");
+            conn = DriverManager.getConnection(DB_URL, dbuser, dbpass);
+            System.out.println("Connection established: " + conn.isValid(2));
 
-	/**
-	 * Create the application.
-	 */
-	public MTSLogin() {
-		initialize();
-	}
+        //handle JDBC errors
+        } catch (SQLException se) { 
+            System.out.println("SQL Exception: " + se.getMessage());
+            System.out.println("SQLState Code: " + se.getSQLState());
+            System.out.println("Error Code: " + se.getErrorCode());
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(250, 250, 630, 470);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+
+        } //end try block
 		
-		JLabel loginLabel = new JLabel("Login"); //label used as header for the login GUI
-		loginLabel.setSize(new Dimension(400, 400));
-		loginLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
-		loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		frame.getContentPane().add(loginLabel);
-		
-		JLabel idLabel = new JLabel("ID:"); //label for user_ID text field
-		idLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		idLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(idLabel);
-		
-		idTextField = new JTextField(); //textfield to input user_ID
-		idTextField.setHorizontalAlignment(SwingConstants.CENTER);
-		idTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		idTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(idTextField);
-		idTextField.setColumns(10);
-		
-		JLabel pwdLabel = new JLabel("Password:"); //label for password text field
-		pwdLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		pwdLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		pwdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(pwdLabel);
-		
-		pwdTextField = new JTextField(); //text field to input password
-		pwdTextField.setHorizontalAlignment(SwingConstants.CENTER);
-		pwdTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(pwdTextField);
-		pwdTextField.setColumns(10);
-		
-		JButton loginButton = new JButton("I am a Student"); //Login button for students
-		loginButton.setSize(250,30);
-		loginButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String idString = idTextField.getText();
-				String pwdString = pwdTextField.getText();
-				MTSDriver.printLogin(idString, pwdString); //Make sure to replace this with a proper student login method
-			}
-		});
-		loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(loginButton);
-		
-		JButton teacherLoginButton = new JButton("I am a Teacher"); //login button for teachers
-		teacherLoginButton.setSize(250,30);
-		teacherLoginButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//Insert method call here (Teacher Login Method)
-			}
-		});
-		teacherLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(teacherLoginButton);
-		
-		JButton registerButton = new JButton("Register"); //register button
-		registerButton.setSize(250,30);
-		registerButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//Insert method call here (Registration Method)
-			}
-		});
-		registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(registerButton);
 		
 	}
+	
+	
 
 }
