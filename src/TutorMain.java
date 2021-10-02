@@ -35,6 +35,13 @@ public class TutorMain {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			try {
+				VertAddWindow vertWindow = new VertAddWindow(conn);
+				vertWindow.getFrame().setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		
 		//Update student file with results	
 			
@@ -59,6 +66,27 @@ public class TutorMain {
 		numArray[1] = rand.nextInt(9) + 1;
 		numArray[2] = rand.nextInt(9) + 1;
 		numArray[3] = (numArray[0] + numArray[1] + numArray[2]);
+		
+		return numArray;
+	}
+	
+	public static int[] VerticalAdd() {
+		
+		int numArray[] = new int[2]; 
+		int i =0;
+		
+		Random rand = new Random();
+		numArray[0] = rand.nextInt(2);
+		if(numArray[0] == 0) {
+			i = rand.nextInt(9) + 1;
+			numArray[0] = 10;
+			numArray[1] = 10 - i;
+		}
+		else {
+			i = rand.nextInt(19) + 1;
+			numArray[0] = 20;
+			numArray[1] = 20 - i;
+		}
 		
 		return numArray;
 	}
