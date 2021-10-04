@@ -10,45 +10,37 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
 
 public class MTSNumberLineAdd {
 
 	private JFrame frame;
 	private JTextField answerText;
+	private JLabel sliderLabel;
 	private int numCorrect = 0;
 	private int numIncorrect = 0;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MTSNumberLineAdd window = new MTSNumberLineAdd();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
-	public MTSNumberLineAdd() {
+	public MTSNumberLineAdd(Connection conn, int id, String password) {
 		initialize();
 	}
 	
 	public void doCorrectAnswer() {
 		numCorrect++;
 		System.out.println("Correct!\nYou have correctly answered " + numCorrect + " times!");
+		
 	}
 	
 	public void doIncorrectAnswer() {
 		numIncorrect++;
 		System.out.println("Incorrect!\nYou have incorrectly answered " + numIncorrect + " times!");
+	}
+	
+	public JFrame getFrame() {
+		return this.frame;
 	}
 
 	/**
@@ -57,7 +49,7 @@ public class MTSNumberLineAdd {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 692, 430);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -65,7 +57,7 @@ public class MTSNumberLineAdd {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel sliderLabel = new JLabel("5");
+		sliderLabel = new JLabel("5");
 		sliderLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		sliderLabel.setFont(new Font("Times New Roman", Font.PLAIN, 22));
 		sliderLabel.setBounds(156, 120, 55, 33);
@@ -88,6 +80,12 @@ public class MTSNumberLineAdd {
 		panel.add(add10Label);
 		
 		JButton submitButton = new JButton("Submit");
+		submitButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				checkAnswer();
+			}
+		});
 		submitButton.setFont(new Font("Tahoma", Font.BOLD, 16));
 		submitButton.setBounds(224, 296, 230, 46);
 		panel.add(submitButton);
@@ -107,19 +105,21 @@ public class MTSNumberLineAdd {
 		});
 		slider.setMaximum(10);
 		slider.setValue(0);
+		slider.setMajorTickSpacing(1);
 		slider.setPaintLabels(true);
 		slider.setSnapToTicks(true);
 		slider.setBounds(109, 219, 459, 51);
 		panel.add(slider);
 	}
-	/*
+	
 	public void checkAnswer() {
-		if(Integer.parseInt(answerText.getText()) == Integer.parseInt(sliderLabel.getText())) { //wtf
+		if(Integer.parseInt(answerText.getText()) == 10 - Integer.parseInt(sliderLabel.getText())) {
 			doCorrectAnswer();
 		}
 		else {
 			doIncorrectAnswer();
 		}
+		answerText.setText("");
 	}
-	*/
+	
 }

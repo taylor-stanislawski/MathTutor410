@@ -41,6 +41,9 @@ public class MTSLogin {
     public static Statement stmt = null;
     public static ResultSet rs = null;
     public static ResultSet rs2 = null;
+    
+    
+
 
 	/**
 	 * Create the application.
@@ -94,7 +97,20 @@ public class MTSLogin {
 		getFrame().getContentPane().add(pwdTextField);
 		pwdTextField.setColumns(10);
 		
-		//Login button for students
+		JRadioButton teacherRadioButton = new JRadioButton("I am a teacher");
+		teacherRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
+		getFrame().getContentPane().add(teacherRadioButton);
+		
+		JRadioButton studentRadioButton = new JRadioButton("I am a student");
+		studentRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
+		studentRadioButton.setSelected(true);
+		getFrame().getContentPane().add(studentRadioButton);
+		
+		ButtonGroup group = new ButtonGroup();
+		group.add(teacherRadioButton);
+		group.add(studentRadioButton);
+		
+		//Login button
 		JButton loginButton = new JButton("Login"); 
 		loginButton.setSize(250,30);
 		loginButton.addMouseListener(new MouseAdapter() {
@@ -102,13 +118,17 @@ public class MTSLogin {
 			public void mouseClicked(MouseEvent e) {
 				int idInt = Integer.valueOf(idTextField.getText());
 				String pwdString = pwdTextField.getText();
-				TutorMain.studentLogin(idInt, pwdString, conn);
-
+				if(studentRadioButton.isSelected()) {
+					TutorMain.studentLogin(idInt, pwdString, conn);
+				}
+				else {
+					TutorMain.teacherLogin(idInt, pwdString, conn);
+				}
 			}
 		});
 		loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		getFrame().getContentPane().add(loginButton);
-		
+				
 		//register button
 		JButton registerButton = new JButton("Register"); 
 		registerButton.setSize(250,30);
@@ -122,19 +142,6 @@ public class MTSLogin {
 		});
 		registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		getFrame().getContentPane().add(registerButton);
-		
-		JRadioButton teacherRadioButton = new JRadioButton("I am a teacher");
-		teacherRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
-		getFrame().getContentPane().add(teacherRadioButton);
-		
-		JRadioButton studentRadioButton = new JRadioButton("I am a student");
-		studentRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
-		studentRadioButton.setSelected(true);
-		getFrame().getContentPane().add(studentRadioButton);
-		
-		ButtonGroup group = new ButtonGroup();
-		group.add(teacherRadioButton);
-		group.add(studentRadioButton);
 		
 	}
 

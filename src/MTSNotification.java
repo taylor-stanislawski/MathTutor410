@@ -3,10 +3,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.SwingConstants;
 
 public class MTSNotification {
 
 	private JFrame frame;
+	private JLabel idLabel;
 
 	/**
 	 * Launch the application.
@@ -40,16 +44,27 @@ public class MTSNotification {
 	private void initialize(String id) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 325, 131);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel idLabel = new JLabel("Your New ID is: " + id);
-		idLabel.setBounds(97, 23, 116, 14);
+		idLabel = new JLabel("Your New ID is: " + id);
+		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		idLabel.setBounds(9, 23, 293, 14);
 		frame.getContentPane().add(idLabel);
 		
 		JButton okButton = new JButton("OK");
+		okButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+			}
+		});
 		okButton.setBounds(111, 53, 89, 23);
 		frame.getContentPane().add(okButton);
+	}
+	
+	public void setNotificationText(String input) {
+		idLabel.setText(input);
 	}
 	
 	public JFrame getFrame() {

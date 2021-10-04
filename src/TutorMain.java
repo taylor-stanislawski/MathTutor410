@@ -46,8 +46,11 @@ public class TutorMain {
                 MTSActivities activityList = new MTSActivities(conn, rs.getInt("S_ID"), rs.getString("S_PWD"));
                 activityList.getFrame().setVisible(true);
             }
-            
-    
+            else {
+            	MTSNotification badCredentials = new MTSNotification("Error: Invalid Credentials");
+            	badCredentials.setNotificationText("Error: Invalid Credentials");
+            	badCredentials.getFrame().setVisible(true);  	
+            }
         } catch (SQLException e) {
             //print SQL errors
             e.printStackTrace();
@@ -61,8 +64,16 @@ public class TutorMain {
                             ResultSet.CONCUR_READ_ONLY);
             rs = stmt.executeQuery("SELECT * FROM tutor.teacher WHERE " +
                                    "T_ID = " + T_ID + " AND T_PWD = '" + pass + "'");
-            while(rs.next()) {
+            if(rs.next()) {
                 System.out.println("Welcome " + rs.getString("firstName") + " " + rs.getString("lastName") );
+                MTSActivities activityList = new MTSActivities(conn, rs.getInt("T_ID"), rs.getString("T_PWD"));
+                activityList.getFrame().setVisible(true);
+            }
+            else {
+            	MTSNotification badCredentials = new MTSNotification("Error: Invalid Credentials");
+            	badCredentials.setNotificationText("Error: Invalid Credentials");
+            	badCredentials.getFrame().setVisible(true);
+            	
             }
             
     
@@ -106,6 +117,8 @@ public class TutorMain {
             
             stmt.execute("insert into tutor.teacher " + 
                          "values('"  + firstName + "','" + lastName + "','" +  pass + "','" + (latestID+1) + "','" + grade + "')" );
+            MTSNotification newID = new MTSNotification(String.valueOf(latestID + 1));
+            newID.getFrame().setVisible(true);
         } catch (SQLException e) {
             //print SQL errors
             e.printStackTrace();
@@ -145,7 +158,6 @@ public class TutorMain {
 		
 		
 		
-
 		//Update student file with results	
 			
 		//handle JDBC errors

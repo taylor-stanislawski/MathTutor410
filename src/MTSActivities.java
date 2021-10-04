@@ -54,7 +54,7 @@ public class MTSActivities {
 	private void initialize(Connection conn) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 408, 358);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Choose an Activity");
@@ -85,6 +85,8 @@ public class MTSActivities {
 		btnAddUsingUmber.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				MTSNumberLineAdd numberLine = new MTSNumberLineAdd(conn, id, password);
+				numberLine.getFrame().setVisible(true);
 			}
 		});
 		btnAddUsingUmber.setBounds(117, 137, 175, 23);
