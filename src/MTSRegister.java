@@ -35,6 +35,7 @@ public class MTSRegister {
 	/**
 	 * Launch the application.
 	 */
+    /*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -65,58 +66,23 @@ public class MTSRegister {
 
         } //end try block
 	}
+	*/
 
 	/**
 	 * Create the application.
 	 */
-	public MTSRegister() {
-		initialize();
+	public MTSRegister(Connection conn) {
+		initialize(conn);
 	}
-	
-	private static void studentRegister(String firstName, String lastName, String pass, int grade) {
-        int latestID = 0;
-
-        try {
-                stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY);
-            rs = stmt.executeQuery("SELECT S_ID FROM tutor.student order by S_ID");
-            while(rs.next()) {
-                latestID=rs.getInt("S_ID");
-            }
-            
-            stmt.execute("insert into tutor.student " + 
-                         "values('"  + firstName + "','" + lastName + "','" +  pass + "','" + (latestID+1) + "','" + grade + "')" );
-        } catch (SQLException e) {
-            //print SQL errors
-            e.printStackTrace();
-        }
-    }
-	
-	private static void teacherRegister(String firstName, String lastName, String pass, int grade) {
-        int latestID = 0;
-
-        try {
-                stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY);
-            rs = stmt.executeQuery("SELECT T_ID FROM tutor.teacher order by T_ID");
-            while(rs.next()) {
-                latestID=rs.getInt("T_ID");
-            }
-            
-            stmt.execute("insert into tutor.teacher " + 
-                         "values('"  + firstName + "','" + lastName + "','" +  pass + "','" + (latestID+1) + "','" + grade + "')" );
-        } catch (SQLException e) {
-            //print SQL errors
-            e.printStackTrace();
-        }
-    }
-	
 	
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Connection conn) {
+		
+		
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 536, 472);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -195,12 +161,12 @@ public class MTSRegister {
 					if(studentRadioButton.isSelected()) {
 						String grade = gradeComboBox.getSelectedItem().toString();
 						int gradeInt = Integer.parseInt(grade);
-						studentRegister(firstNameTextfield.getText(), lastNameTextfield.getText(), passwordTextfield.getText(), gradeInt);
+						TutorMain.studentRegister(firstNameTextfield.getText(), lastNameTextfield.getText(), passwordTextfield.getText(), gradeInt, conn);
 					}
 					else {
 						String grade = gradeComboBox.getSelectedItem().toString();
 						int gradeInt = Integer.parseInt(grade);
-						teacherRegister(firstNameTextfield.getText(), lastNameTextfield.getText(), passwordTextfield.getText(), gradeInt);
+						TutorMain.teacherRegister(firstNameTextfield.getText(), lastNameTextfield.getText(), passwordTextfield.getText(), gradeInt, conn);
 					}
 				}
 				

@@ -42,85 +42,43 @@ public class MTSLogin {
     public static ResultSet rs = null;
     public static ResultSet rs2 = null;
 
-
 	/**
 	 * Create the application.
 	 */
 	
 	
-	public MTSLogin() {
-		initialize();
+	public MTSLogin(Connection conn) {
+		initialize(conn);
 	}
-	
-	public static void studentLogin(int S_ID, String pass) {
-        
-        try {
-            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY);
-            rs = stmt.executeQuery("SELECT * FROM tutor.student WHERE " +
-                                   "S_ID = " + S_ID + " AND pass = '" + pass + "'");
-            while(rs.next()) {
-                System.out.println("Welcome " + rs.getString("firstName") + " " + rs.getString("lastName") );
-            }
-            
-    
-        } catch (SQLException e) {
-            //print SQL errors
-            e.printStackTrace();
-        }
-    }
-
-	public static void printLogin(String str1, String str2) {
-		System.out.println("ID: " + str1 + "\nPWD: " + str2);
-	}
-	
-	private static void register(String firstName, String lastName, int grade ) {
-        int latestID = 0;
-
-        try {
-                stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY);
-            rs = stmt.executeQuery("SELECT S_ID FROM tutor.student order by S_ID");
-            while(rs.next()) {
-                latestID=rs.getInt("S_ID");
-            }
-            
-            stmt.execute("insert into tutor.student " + 
-                         "values('"  + firstName + "','" + lastName + "','" + (latestID+1) + "','" +   grade + "')" );
-        } catch (SQLException e) {
-            //print SQL errors
-            e.printStackTrace();
-        }
-    }
 	
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(250, 250, 630, 470);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+	private void initialize(Connection conn) {
+		setFrame(new JFrame());
+		getFrame().setBounds(250, 250, 630, 470);
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrame().getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		
 		//label used as header for the login GUI
 		JLabel loginLabel = new JLabel("Login"); 
 		loginLabel.setSize(new Dimension(400, 400));
 		loginLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
 		loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		frame.getContentPane().add(loginLabel);
+		getFrame().getContentPane().add(loginLabel);
 		
 		//label for user_ID text field
 		JLabel idLabel = new JLabel("ID:"); 
 		idLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		idLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(idLabel);
+		getFrame().getContentPane().add(idLabel);
 		
 		//text field to input user_ID
 		idTextField = new JTextField(); 
 		idTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		idTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(idTextField);
+		getFrame().getContentPane().add(idTextField);
 		idTextField.setColumns(10);
 		
 		//label for password text field
@@ -128,12 +86,12 @@ public class MTSLogin {
 		pwdLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		pwdLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		pwdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(pwdLabel);
+		getFrame().getContentPane().add(pwdLabel);
 		
 		//text field to input password
 		pwdTextField = new JTextField(); 
 		pwdTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(pwdTextField);
+		getFrame().getContentPane().add(pwdTextField);
 		pwdTextField.setColumns(10);
 		
 		//Login button for students
@@ -142,15 +100,14 @@ public class MTSLogin {
 		loginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String idString = idTextField.getText();
-				Scanner sc = new Scanner(idString);
-				int idInt = sc.nextInt();
+				int idInt = Integer.valueOf(idTextField.getText());
 				String pwdString = pwdTextField.getText();
-				studentLogin(idInt, pwdString);
+				TutorMain.studentLogin(idInt, pwdString, conn);
+
 			}
 		});
 		loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(loginButton);
+		getFrame().getContentPane().add(loginButton);
 		
 		//register button
 		JButton registerButton = new JButton("Register"); 
@@ -159,61 +116,33 @@ public class MTSLogin {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//Insert method call here (Registration Method)
-				MTSRegister window = new MTSRegister();
+				MTSRegister window = new MTSRegister(conn);
 				window.frame.setVisible(true);
 			}
 		});
 		registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		frame.getContentPane().add(registerButton);
+		getFrame().getContentPane().add(registerButton);
 		
 		JRadioButton teacherRadioButton = new JRadioButton("I am a teacher");
 		teacherRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
-		frame.getContentPane().add(teacherRadioButton);
+		getFrame().getContentPane().add(teacherRadioButton);
 		
 		JRadioButton studentRadioButton = new JRadioButton("I am a student");
 		studentRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
 		studentRadioButton.setSelected(true);
-		frame.getContentPane().add(studentRadioButton);
+		getFrame().getContentPane().add(studentRadioButton);
 		
 		ButtonGroup group = new ButtonGroup();
 		group.add(teacherRadioButton);
 		group.add(studentRadioButton);
 		
 	}
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MTSLogin window = new MTSLogin();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		String dbuser = args[0];
-		String dbpass = args[1];
-		
-		try {
-            //establish connection to database
-            System.out.println("Connecting to database");
-            conn = DriverManager.getConnection(DB_URL, dbuser, dbpass);
-            System.out.println("Connection established: " + conn.isValid(2));
 
-        //handle JDBC errors
-        } catch (SQLException se) { 
-            System.out.println("SQL Exception: " + se.getMessage());
-            System.out.println("SQLState Code: " + se.getSQLState());
-            System.out.println("Error Code: " + se.getErrorCode());
-
-
-        } //end try block
-		
-		
+	public JFrame getFrame() {
+		return this.frame;
 	}
-	
-	
 
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
 }
