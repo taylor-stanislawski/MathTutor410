@@ -298,7 +298,7 @@ public class twoDigitCarry {
 		cLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(cLabel);
 		int newTotal = total-1;
-		JLabel textLabel = new JLabel("You have manually finished this test. Your grade was: " + correct + "/" + total);
+		JLabel textLabel = new JLabel("You have manually finished this activity. Your grade was: " + correct + "/" + total);
 		textLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(textLabel);
 		
