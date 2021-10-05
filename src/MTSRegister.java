@@ -22,6 +22,7 @@ public class MTSRegister {
 	private JTextField lastNameTextfield;
 	private JTextField passwordTextfield;
 	private JTextField firstNameTextfield;
+	private JTextField teacherIDTextfield;
 	
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/";
@@ -31,42 +32,7 @@ public class MTSRegister {
     public static Statement stmt = null;
     public static ResultSet rs = null;
     public static ResultSet rs2 = null;
-
-	/**
-	 * Launch the application.
-	 */
-    /*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MTSRegister window = new MTSRegister();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		String dbuser = args[0];
-		String dbpass = args[1];
-		
-		try {
-            //establish connection to database
-            System.out.println("Connecting to database");
-            conn = DriverManager.getConnection(DB_URL, dbuser, dbpass);
-            System.out.println("Connection established: " + conn.isValid(2));
-
-        //handle JDBC errors
-        } catch (SQLException se) { 
-            System.out.println("SQL Exception: " + se.getMessage());
-            System.out.println("SQLState Code: " + se.getSQLState());
-            System.out.println("Error Code: " + se.getErrorCode());
-
-
-        } //end try block
-	}
-	*/
+	
 
 	/**
 	 * Create the application.
@@ -112,18 +78,18 @@ public class MTSRegister {
 		frame.getContentPane().add(passwordLabel);
 		
 		JLabel gradeLabel = new JLabel("Grade:");
-		gradeLabel.setBounds(182, 227, 86, 14);
+		gradeLabel.setBounds(182, 288, 86, 14);
 		frame.getContentPane().add(gradeLabel);
 		
 		ButtonGroup group = new ButtonGroup();
 		
 		JRadioButton teacherRadioButton = new JRadioButton("I am a teacher");
-		teacherRadioButton.setBounds(205, 294, 109, 23);
+		teacherRadioButton.setBounds(207, 333, 109, 23);
 		group.add(teacherRadioButton);
 		frame.getContentPane().add(teacherRadioButton);
 		
 		JRadioButton studentRadioButton = new JRadioButton("I am a student");
-		studentRadioButton.setBounds(205, 320, 109, 23);
+		studentRadioButton.setBounds(207, 359, 109, 23);
 		group.add(studentRadioButton);
 		studentRadioButton.setSelected(true);
 		frame.getContentPane().add(studentRadioButton);
@@ -141,7 +107,7 @@ public class MTSRegister {
 		gradeComboBox.setMaximumRowCount(6);
 		gradeComboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6"}));
 		gradeComboBox.setSelectedIndex(0);
-		gradeComboBox.setBounds(182, 252, 155, 22);
+		gradeComboBox.setBounds(182, 304, 155, 22);
 		frame.getContentPane().add(gradeComboBox);
 		
 		JLabel errorLabel = new JLabel("");
@@ -149,8 +115,17 @@ public class MTSRegister {
 		errorLabel.setBounds(58, 46, 404, 30);
 		frame.getContentPane().add(errorLabel);
 		
+		teacherIDTextfield = new JTextField();
+		teacherIDTextfield.setColumns(10);
+		teacherIDTextfield.setBounds(182, 240, 155, 20);
+		frame.getContentPane().add(teacherIDTextfield);
+		
+		JLabel teacherIDLabel = new JLabel("Teacher's ID (if student):");
+		teacherIDLabel.setBounds(182, 226, 155, 14);
+		frame.getContentPane().add(teacherIDLabel);
+		
 		JButton registerButton = new JButton("Register");
-		registerButton.setBounds(190, 366, 139, 35);
+		registerButton.setBounds(193, 389, 139, 35);
 		registerButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -161,7 +136,7 @@ public class MTSRegister {
 					if(studentRadioButton.isSelected()) {
 						String grade = gradeComboBox.getSelectedItem().toString();
 						int gradeInt = Integer.parseInt(grade);
-						TutorMain.studentRegister(firstNameTextfield.getText(), lastNameTextfield.getText(), passwordTextfield.getText(), gradeInt, conn);
+						TutorMain.studentRegister(firstNameTextfield.getText(), lastNameTextfield.getText(), passwordTextfield.getText(), gradeInt, Integer.parseInt(teacherIDTextfield.getText()), conn);
 					}
 					else {
 						String grade = gradeComboBox.getSelectedItem().toString();

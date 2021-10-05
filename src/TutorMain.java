@@ -66,8 +66,8 @@ public class TutorMain {
                                    "T_ID = " + T_ID + " AND T_PWD = '" + pass + "'");
             if(rs.next()) {
                 System.out.println("Welcome " + rs.getString("firstName") + " " + rs.getString("lastName") );
-                MTSActivities activityList = new MTSActivities(conn, rs.getInt("T_ID"), rs.getString("T_PWD"));
-                activityList.getFrame().setVisible(true);
+                MTSProgress progress = new MTSProgress(conn, T_ID);
+                progress.getFrame().setVisible(true);
             }
             else {
             	MTSNotification badCredentials = new MTSNotification("Error: Invalid Credentials");
@@ -83,7 +83,7 @@ public class TutorMain {
         }
     }
 	
-	public static void studentRegister(String firstName, String lastName, String pass, int grade, Connection conn) {
+	public static void studentRegister(String firstName, String lastName, String pass, int grade, int teacherID, Connection conn) {
         int latestID = 0;
 
         try {
@@ -95,8 +95,8 @@ public class TutorMain {
             }
             
             stmt.execute("insert into tutor.student " + 
-                         "values('"  + firstName + "','" + lastName + "','" +  pass + "','" + (latestID+1) + "','" + grade + "')" );
-            stmt.execute("insert into tutor.Activities " + "values('" + latestID+1 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + "')");
+                         "values('"  + firstName + "','" + lastName + "','" +  pass + "','" + (latestID+1) + "','" + teacherID + "','" + grade + "')" );
+            stmt.execute("insert into tutor.Activities " + "values('" + (latestID+1) + "','" + 0 + "','" + 0 + "','" + 100 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "')");
             MTSNotification newID = new MTSNotification(String.valueOf(latestID + 1));
             newID.getFrame().setVisible(true);
         } catch (SQLException e) {
@@ -126,31 +126,154 @@ public class TutorMain {
         }
     }
 	
-	public static void vertGrade(Connection conn, int total, int correct, int S_ID) {
+	public static void vertGrade(Connection conn, int total, int correct, int S_ID, int activity) {
         int currGrade = 0;
         int newGrade = 0;
         int updGrade = 0;
         
         try {
-            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
-        rs = stmt.executeQuery("select Actv_3 from tutor.Activities;");
-        while(rs.next()) {
-            currGrade=rs.getInt("Actv_3");
-        }
-        newGrade = (correct/total);
-        updGrade = ((newGrade + currGrade)/2);
+        	stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+        switch(activity) {
+
+        case 1:
+	        rs = stmt.executeQuery("select Actv_1 from tutor.Activities where S_ID = " + S_ID);
+	        while(rs.next()) {
+	            currGrade=rs.getInt("Actv_1");
+	        }
+	        if(currGrade == 0) {
+	        	newGrade = (correct / total) * 100;
+	        	updGrade = newGrade;
+	        }
+	        else {
+		        newGrade = (correct / total) * 100;
+		        updGrade = ((newGrade + currGrade) / 2);
+	        }
+	        stmt.execute("update tutor.activities " +
+                     "SET Actv_1 = " + updGrade +
+                     " WHERE S_ID = " + S_ID);
+	        break;
+        case 2: 
+        	rs = stmt.executeQuery("select Actv_2 from tutor.Activities where S_ID = " + S_ID);
+	        while(rs.next()) {
+	            currGrade=rs.getInt("Actv_2");
+	        }
+	        if(currGrade == 0) {
+	        	newGrade = (correct / total) * 100;
+	        	updGrade = newGrade;
+	        }
+	        else {
+		        newGrade = (correct / total) * 100;
+		        updGrade = ((newGrade + currGrade) / 2);
+	        }
+	        stmt.execute("update tutor.activities " +
+                         "SET Actv_2 = " + updGrade +
+                         " WHERE S_ID = " + S_ID);
+        	break;
+        case 3:
+        	rs = stmt.executeQuery("select Actv_3 from tutor.Activities where S_ID = " + S_ID);
+        	rs.first();
+        	currGrade = rs.getInt("Actv_3");
+	        if(currGrade == 0) {
+	        	newGrade = (correct / total) * 100;
+	        	updGrade = newGrade;
+	        }
+	        else {
+		        newGrade = (correct / total) * 100;
+		        updGrade = ((newGrade + currGrade) / 2);
+	        }
+	        System.out.println(currGrade + " " + newGrade + " " + updGrade);
+	        stmt.execute("update tutor.Activities " +
+                     "SET Actv_3 = " + updGrade +
+                     " WHERE S_ID = " + S_ID);
+        	break;
+        case 4:
+        	rs = stmt.executeQuery("select Actv_4 from tutor.Activities where S_ID = " + S_ID);
+	        while(rs.next()) {
+	            currGrade=rs.getInt("Actv_4");
+	        }
+	        if(currGrade == 0) {
+	        	newGrade = (correct / total) * 100;
+	        	updGrade = newGrade;
+	        }
+	        else {
+		        newGrade = (correct / total) * 100;
+		        updGrade = ((newGrade + currGrade) / 2);
+	        }
+	        stmt.execute("update tutor.activities " +
+                     "SET Actv_4 = " + updGrade +
+                     " WHERE S_ID = " + S_ID);
+        	break;
+        case 5:
+        	rs = stmt.executeQuery("select Actv_5 from tutor.Activities where S_ID = " + S_ID);
+	        while(rs.next()) {
+	            currGrade=rs.getInt("Actv_5");
+	        }
+	        if(currGrade == 0) {
+	        	newGrade = (correct / total) * 100;
+	        	updGrade = newGrade;
+	        }
+	        else {
+		        newGrade = (correct / total) * 100;
+		        updGrade = ((newGrade + currGrade) / 2);
+	        }
+	        stmt.execute("update tutor.activities " +
+                     "SET Actv_5 = " + updGrade +
+                     " WHERE S_ID = " + S_ID);
+        	break;
+        case 6:
+        	rs = stmt.executeQuery("select Actv_6 from tutor.Activities where S_ID = " + S_ID);
+	        while(rs.next()) {
+	            currGrade=rs.getInt("Actv_6");
+	        }
+	        if(currGrade == 0) {
+	        	newGrade = (correct / total) * 100;
+	        	updGrade = newGrade;
+	        }
+	        else {
+		        newGrade = (correct / total) * 100;
+		        updGrade = ((newGrade + currGrade) / 2);
+	        }
+	        stmt.execute("update tutor.activities " +
+                     "SET Actv_6 = " + updGrade +
+                     " WHERE S_ID = " + S_ID);
+	        break;
+
+        }//end switch
         
-        
-        stmt.execute("update tutor.activities " +
-                     "SET column3 = " + updGrade +
-                     "WHERE column1 = " + S_ID);
         
         
         } catch (SQLException e) {
             //print SQL errors
             e.printStackTrace();
         }
+    }
+	
+	public static ArrayList<Student> getProgress() {
+        ArrayList<Student> studentList = new ArrayList<Student>();
+        try {
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+            rs = stmt.executeQuery("select * from tutor.Activities");
+            
+            
+            while(rs.next()) {
+                studentList.add(new Student(rs.getInt("S_ID"),
+                                            rs.getInt("Actv_1"),
+                                            rs.getInt("Actv_2"),
+                                            rs.getInt("Actv_3"),
+                                            rs.getInt("Actv_4"),
+                                            rs.getInt("Actv_5"),
+                                            rs.getInt("Actv_6") ) 
+                                );
+            }
+
+        } catch (SQLException e) {
+            //print SQL errors
+            e.printStackTrace();
+        }
+        
+        return studentList;
     }
 	
 	

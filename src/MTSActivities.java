@@ -19,21 +19,6 @@ public class MTSActivities {
 	/**
 	 * Launch the application.
 	 */
-	
-	/*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MTSActivities window = new MTSActivities(conn);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/
 
 	/**
 	 * Create the application.
@@ -60,7 +45,7 @@ public class MTSActivities {
 		JLabel lblNewLabel = new JLabel("Choose an Activity");
 		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(68, 11, 257, 47);
+		lblNewLabel.setBounds(68, 32, 257, 47);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Counting");
@@ -70,19 +55,8 @@ public class MTSActivities {
 				MTSrecogCount counting = new MTSrecogCount();
 			}
 		});
-		btnNewButton.setBounds(117, 69, 175, 23);
+		btnNewButton.setBounds(117, 103, 175, 23);
 		frame.getContentPane().add(btnNewButton);
-		
-		JButton btnGreaterOrLess = new JButton("Greater Than or Less Than");
-		btnGreaterOrLess.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-
-			}
-		});
-		btnGreaterOrLess.setBounds(117, 103, 175, 23);
-		frame.getContentPane().add(btnGreaterOrLess);
 		
 		JButton btnAddUsingUmber = new JButton("Add Using Number Line");
 		btnAddUsingUmber.addMouseListener(new MouseAdapter() {

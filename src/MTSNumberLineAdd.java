@@ -121,7 +121,7 @@ public class MTSNumberLineAdd {
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TutorMain.vertGrade(conn, total, correct, id);
+				TutorMain.vertGrade(conn, total, correct, id, 2);
 				frame.dispose();
 			}
 		});
