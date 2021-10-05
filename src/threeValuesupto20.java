@@ -1,6 +1,7 @@
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.sql.Connection;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.AbstractAction;
@@ -14,6 +15,7 @@ public class threeValuesupto20 {
 	
 	public static int total = 0;
 	public static int correct= 0;
+	public static Connection conn;
 
 	public static void threeValuesupto20() {
 		int rand = ThreadLocalRandom.current().nextInt(1, 17);
@@ -39,7 +41,7 @@ public class threeValuesupto20 {
 			frame = new JFrame();
 			frame.setVisible(true);
 			frame.setBounds(100, 100, 530, 370);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 			
 			JLabel cLabel = new JLabel("Correct!");
@@ -81,7 +83,7 @@ public class threeValuesupto20 {
 			frame = new JFrame();
 			frame.setVisible(true);
 			frame.setBounds(100, 100, 530, 370);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 			
 			JLabel cLabel = new JLabel("Incorrect.");
@@ -129,7 +131,7 @@ public class threeValuesupto20 {
 		frame = new JFrame();
 		frame.setVisible(true);
 		frame.setBounds(100, 100, 530, 370);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JLabel cLabel = new JLabel("Counter");
@@ -167,7 +169,7 @@ public class threeValuesupto20 {
 					frame = new JFrame();
 					frame.setVisible(true);
 					frame.setBounds(100, 100, 530, 370);
-					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 					
 					JLabel errorLabel = new JLabel("Error");
@@ -215,5 +217,6 @@ public class threeValuesupto20 {
 		enterButton.requestFocus();
 		frame.getContentPane().add(enterButton);
 	}
-	}
+
+}
 

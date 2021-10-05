@@ -2,6 +2,7 @@
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -12,12 +13,15 @@ import java.awt.Font;
 
 public class HorizAddWindow {
 
+	
+	public static int total;
+	public static int correct;
 	private JFrame frame;
 	static volatile int numArray[] = TutorMain.HorizontalAdd();
 	static volatile int result = numArray[3];
 
-	public HorizAddWindow() {
-		initialize();
+	public HorizAddWindow(Connection conn, int id, String pwd) {
+		initialize(conn);
 	}
 	
 	public JFrame getFrame() {
@@ -31,10 +35,10 @@ public class HorizAddWindow {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Connection conn) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 473, 314);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);	
 		
 		JLabel sumLabel = new JLabel("Enter sum of: ");

@@ -67,15 +67,18 @@ public class MTSActivities {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				MTSrecogCount counting = new MTSrecogCount();
 			}
 		});
 		btnNewButton.setBounds(117, 69, 175, 23);
 		frame.getContentPane().add(btnNewButton);
 		
-		JButton btnGreaterOrLess = new JButton("Greater or Less Than");
+		JButton btnGreaterOrLess = new JButton("Greater Than or Less Than");
 		btnGreaterOrLess.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+
 			}
 		});
 		btnGreaterOrLess.setBounds(117, 103, 175, 23);
@@ -92,10 +95,12 @@ public class MTSActivities {
 		btnAddUsingUmber.setBounds(117, 137, 175, 23);
 		frame.getContentPane().add(btnAddUsingUmber);
 		
-		JButton btnAddNumbers = new JButton("Add 3 Numbers to Make 20");
+		JButton btnAddNumbers = new JButton("Add 3 Numbers");
 		btnAddNumbers.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				threeValuesupto20 addThreeValues = new threeValuesupto20();
+				addThreeValues.threeValuesupto20();
 			}
 		});
 		btnAddNumbers.setBounds(117, 171, 175, 23);
@@ -105,6 +110,8 @@ public class MTSActivities {
 		btnVerticalAddition.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				VertAddWindow verticalAddition = new VertAddWindow(conn, id, password);
+				verticalAddition.getFrame().setVisible(true);
 			}
 		});
 		btnVerticalAddition.setBounds(117, 205, 175, 23);
@@ -114,6 +121,8 @@ public class MTSActivities {
 		btnHorizontalAddition.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				HorizAddWindow horizontalAddition = new HorizAddWindow(conn, id, password);
+				horizontalAddition.getFrame().setVisible(true);
 			}
 		});
 		btnHorizontalAddition.setBounds(117, 239, 175, 23);

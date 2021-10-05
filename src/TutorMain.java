@@ -96,6 +96,7 @@ public class TutorMain {
             
             stmt.execute("insert into tutor.student " + 
                          "values('"  + firstName + "','" + lastName + "','" +  pass + "','" + (latestID+1) + "','" + grade + "')" );
+            stmt.execute("insert into tutor.Activities " + "values('" + latestID+1 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + "')");
             MTSNotification newID = new MTSNotification(String.valueOf(latestID + 1));
             newID.getFrame().setVisible(true);
         } catch (SQLException e) {
@@ -119,6 +120,33 @@ public class TutorMain {
                          "values('"  + firstName + "','" + lastName + "','" +  pass + "','" + (latestID+1) + "','" + grade + "')" );
             MTSNotification newID = new MTSNotification(String.valueOf(latestID + 1));
             newID.getFrame().setVisible(true);
+        } catch (SQLException e) {
+            //print SQL errors
+            e.printStackTrace();
+        }
+    }
+	
+	public static void vertGrade(Connection conn, int total, int correct, int S_ID) {
+        int currGrade = 0;
+        int newGrade = 0;
+        int updGrade = 0;
+        
+        try {
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+        rs = stmt.executeQuery("select Actv_3 from tutor.Activities;");
+        while(rs.next()) {
+            currGrade=rs.getInt("Actv_3");
+        }
+        newGrade = (correct/total);
+        updGrade = ((newGrade + currGrade)/2);
+        
+        
+        stmt.execute("update tutor.activities " +
+                     "SET column3 = " + updGrade +
+                     "WHERE column1 = " + S_ID);
+        
+        
         } catch (SQLException e) {
             //print SQL errors
             e.printStackTrace();

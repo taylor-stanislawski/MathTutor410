@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
+import java.sql.Connection;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MTSrecogCount {	
@@ -204,4 +205,5 @@ public class MTSrecogCount {
 		enterButton.requestFocus();
 		frame.getContentPane().add(enterButton);
 	}
+	
 }

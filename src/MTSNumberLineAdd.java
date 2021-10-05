@@ -11,32 +11,35 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MTSNumberLineAdd {
 
 	private JFrame frame;
 	private JTextField answerText;
 	private JLabel sliderLabel;
-	private int numCorrect = 0;
-	private int numIncorrect = 0;
+	public static int total;
+	public static int correct;
 
 
 	/**
 	 * Create the application.
 	 */
 	public MTSNumberLineAdd(Connection conn, int id, String password) {
-		initialize();
+		initialize(conn, id);
 	}
 	
 	public void doCorrectAnswer() {
-		numCorrect++;
-		System.out.println("Correct!\nYou have correctly answered " + numCorrect + " times!");
+		total++;
+		correct++;
+		System.out.println("Correct!\nYou have correctly answered " + correct + " times!");
 		
 	}
 	
 	public void doIncorrectAnswer() {
-		numIncorrect++;
-		System.out.println("Incorrect!\nYou have incorrectly answered " + numIncorrect + " times!");
+		total++;
+		System.out.println("Incorrect!\nYou have incorrectly answered " + (total - correct) + " times!");
 	}
 	
 	public JFrame getFrame() {
@@ -46,7 +49,7 @@ public class MTSNumberLineAdd {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Connection conn, int id) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 692, 430);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -80,6 +83,10 @@ public class MTSNumberLineAdd {
 		panel.add(add10Label);
 		
 		JButton submitButton = new JButton("Submit");
+		submitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		submitButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -87,7 +94,7 @@ public class MTSNumberLineAdd {
 			}
 		});
 		submitButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-		submitButton.setBounds(224, 296, 230, 46);
+		submitButton.setBounds(224, 279, 230, 46);
 		panel.add(submitButton);
 		
 		JLabel plusLabel = new JLabel("+");
@@ -110,6 +117,17 @@ public class MTSNumberLineAdd {
 		slider.setSnapToTicks(true);
 		slider.setBounds(109, 219, 459, 51);
 		panel.add(slider);
+		
+		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TutorMain.vertGrade(conn, total, correct, id);
+				frame.dispose();
+			}
+		});
+		btnExit.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnExit.setBounds(224, 336, 230, 46);
+		panel.add(btnExit);
 	}
 	
 	public void checkAnswer() {

@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 public class VertAddWindow {
 
 	private JFrame frame;
+	public static int total;
+	public static int correct;
 	static volatile int numArray[] = TutorMain.VerticalAdd();
 	static volatile int result = numArray[0];
 
@@ -21,8 +23,8 @@ public class VertAddWindow {
 	/**
 	 * Create the application.
 	 */
-	public VertAddWindow(Connection conn) {
-		initialize(conn);
+	public VertAddWindow(Connection conn, int id, String pwd) {
+		initialize(conn, id, pwd);
 	}
 	
 	public JFrame getFrame() {
@@ -36,10 +38,10 @@ public class VertAddWindow {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Connection conn) {
+	private void initialize(Connection conn, int id, String pwd) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 491, 337);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel textLabel = new JLabel("Find the number to add up to");
