@@ -153,8 +153,8 @@ public class twoDigitCarry {
 		        @Override
 		        public void actionPerformed( ActionEvent e ) {
 		            // add Action
-		        	//TutorMain.vertGrade(conn, total, correct, id, activity);
-		        	frame.dispose();
+		        	done(conn, id, pwd, total, correct);
+			        frame.dispose();
 		        }
 		    });
 		doneButton.setBounds(153, 162, 141, 32); 
