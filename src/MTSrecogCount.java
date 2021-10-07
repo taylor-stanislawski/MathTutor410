@@ -210,7 +210,7 @@ public class MTSrecogCount {
 		} }}
 		}
 	public void done(Connection conn, int id, String pwd, int total, int correct) {
-		//TutorMain.vertGrade(conn, total, correct, id, activity);
+		TutorMain.vertGrade(conn, total, correct, id, 1);
 		System.out.println("DONE!");
 		JFrame frame;
 		

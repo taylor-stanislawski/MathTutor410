@@ -283,7 +283,7 @@ public class twoDigitCarry {
 	}
 	
 	public void done(Connection conn, int id, String pwd, int total, int correct) {
-		//TutorMain.vertGrade(conn, total, correct, id, activity);
+		TutorMain.vertGrade(conn, total, correct, id, 6);
 		System.out.println("DONE!");
 		JFrame frame;
 		

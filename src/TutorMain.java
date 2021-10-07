@@ -96,7 +96,7 @@ public class TutorMain {
             
             stmt.execute("insert into tutor.student " + 
                          "values('"  + firstName + "','" + lastName + "','" +  pass + "','" + (latestID+1) + "','" + teacherID + "','" + grade + "')" );
-            stmt.execute("insert into tutor.Activities " + "values('" + (latestID+1) + "','" + 0 + "','" + 0 + "','" + 100 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "')");
+            stmt.execute("insert into tutor.Activities " + "values('" + (latestID+1) + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "','" + 0 + "')");
             MTSNotification newID = new MTSNotification(String.valueOf(latestID + 1));
             newID.getFrame().setVisible(true);
         } catch (SQLException e) {
@@ -127,9 +127,9 @@ public class TutorMain {
     }
 	
 	public static void vertGrade(Connection conn, int total, int correct, int S_ID, int activity) {
-        int currGrade = 0;
-        int newGrade = 0;
-        int updGrade = 0;
+        double currGrade = 0;
+        double newGrade = 0;
+        double updGrade = 0;
         
         try {
         	stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -142,11 +142,11 @@ public class TutorMain {
 	            currGrade=rs.getInt("Actv_1");
 	        }
 	        if(currGrade == 0) {
-	        	newGrade = (correct / total) * 100;
+	        	newGrade = (correct / (double) total) * 100;
 	        	updGrade = newGrade;
 	        }
 	        else {
-		        newGrade = (correct / total) * 100;
+		        newGrade = (correct / (double) total) * 100;
 		        updGrade = ((newGrade + currGrade) / 2);
 	        }
 	        stmt.execute("update tutor.activities " +
@@ -159,11 +159,11 @@ public class TutorMain {
 	            currGrade=rs.getInt("Actv_2");
 	        }
 	        if(currGrade == 0) {
-	        	newGrade = (correct / total) * 100;
+	        	newGrade = (correct / (double) total) * 100;
 	        	updGrade = newGrade;
 	        }
 	        else {
-		        newGrade = (correct / total) * 100;
+		        newGrade = (correct / (double) total) * 100;
 		        updGrade = ((newGrade + currGrade) / 2);
 	        }
 	        stmt.execute("update tutor.activities " +
@@ -172,14 +172,16 @@ public class TutorMain {
         	break;
         case 3:
         	rs = stmt.executeQuery("select Actv_3 from tutor.Activities where S_ID = " + S_ID);
-        	rs.first();
-        	currGrade = rs.getInt("Actv_3");
+        	while(rs.next()) {
+            	currGrade = rs.getInt("Actv_3");
+        	}
+        	
 	        if(currGrade == 0) {
-	        	newGrade = (correct / total) * 100;
+	        	newGrade = (correct / (double) total) * 100;
 	        	updGrade = newGrade;
 	        }
 	        else {
-		        newGrade = (correct / total) * 100;
+		        newGrade = (correct / (double) total) * 100;
 		        updGrade = ((newGrade + currGrade) / 2);
 	        }
 	        System.out.println(currGrade + " " + newGrade + " " + updGrade);
@@ -193,13 +195,14 @@ public class TutorMain {
 	            currGrade=rs.getInt("Actv_4");
 	        }
 	        if(currGrade == 0) {
-	        	newGrade = (correct / total) * 100;
+	        	newGrade = (correct / (double) total) * 100;
 	        	updGrade = newGrade;
 	        }
 	        else {
-		        newGrade = (correct / total) * 100;
+		        newGrade = (correct / (double) total) * 100;
 		        updGrade = ((newGrade + currGrade) / 2);
 	        }
+	        System.out.println(currGrade + " " + newGrade + " " + updGrade);
 	        stmt.execute("update tutor.activities " +
                      "SET Actv_4 = " + updGrade +
                      " WHERE S_ID = " + S_ID);
@@ -210,11 +213,11 @@ public class TutorMain {
 	            currGrade=rs.getInt("Actv_5");
 	        }
 	        if(currGrade == 0) {
-	        	newGrade = (correct / total) * 100;
+	        	newGrade = (correct / (double) total) * 100;
 	        	updGrade = newGrade;
 	        }
 	        else {
-		        newGrade = (correct / total) * 100;
+		        newGrade = (correct / (double) total) * 100;
 		        updGrade = ((newGrade + currGrade) / 2);
 	        }
 	        stmt.execute("update tutor.activities " +
@@ -227,11 +230,11 @@ public class TutorMain {
 	            currGrade=rs.getInt("Actv_6");
 	        }
 	        if(currGrade == 0) {
-	        	newGrade = (correct / total) * 100;
+	        	newGrade = (correct / (double) total) * 100;
 	        	updGrade = newGrade;
 	        }
 	        else {
-		        newGrade = (correct / total) * 100;
+		        newGrade = (correct / (double) total) * 100;
 		        updGrade = ((newGrade + currGrade) / 2);
 	        }
 	        stmt.execute("update tutor.activities " +

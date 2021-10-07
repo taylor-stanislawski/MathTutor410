@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.sql.*;
 
 import javax.swing.JFrame;
@@ -88,8 +89,11 @@ public class VertAddWindow {
 					if(numField.getText() != null && numField.getText() != "") {
 						if((Integer.parseInt(numField.getText()) + numArray[1]) == result) {
 						resultLabel.setText("Correct");
+						total++;
+						correct++;
 						} else {
 						resultLabel.setText("Incorrect");
+						total++;
 						}
 					}
 					else {
@@ -111,5 +115,16 @@ public class VertAddWindow {
 		});
 		enterButton.setBounds(303, 132, 141, 32);
 		frame.getContentPane().add(enterButton);
+		
+		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TutorMain.vertGrade(conn, total, correct, id, 4);
+				frame.dispose();
+			}
+		});
+		btnExit.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnExit.setBounds(303, 175, 141, 32);
+		frame.getContentPane().add(btnExit);
 	}
 }

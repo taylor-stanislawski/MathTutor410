@@ -9,6 +9,8 @@ import java.sql.Connection;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MTSActivities {
 
@@ -49,10 +51,16 @@ public class MTSActivities {
 		frame.getContentPane().add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Counting");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				MTSrecogCount counting = new MTSrecogCount();
+				counting.MTSrecogCount(conn, id, password);
 			}
 		});
 		btnNewButton.setBounds(117, 103, 175, 23);
@@ -74,7 +82,7 @@ public class MTSActivities {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				threeValuesupto20 addThreeValues = new threeValuesupto20();
-				addThreeValues.threeValuesupto20();
+				addThreeValues.threeValuesupto20(conn, id, password);
 			}
 		});
 		btnAddNumbers.setBounds(117, 171, 175, 23);
@@ -106,6 +114,8 @@ public class MTSActivities {
 		btnAdddigitNumbers.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				twoDigitCarry carry = new twoDigitCarry();
+				carry.twoDigitCarry(conn, id, password);
 			}
 		});
 		btnAdddigitNumbers.setBounds(117, 273, 175, 23);

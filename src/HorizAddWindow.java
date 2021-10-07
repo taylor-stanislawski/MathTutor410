@@ -1,5 +1,7 @@
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -21,7 +23,7 @@ public class HorizAddWindow {
 	static volatile int result = numArray[3];
 
 	public HorizAddWindow(Connection conn, int id, String pwd) {
-		initialize(conn);
+		initialize(conn, id);
 	}
 	
 	public JFrame getFrame() {
@@ -35,7 +37,7 @@ public class HorizAddWindow {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Connection conn) {
+	private void initialize(Connection conn, int id) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 473, 314);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -55,7 +57,7 @@ public class HorizAddWindow {
 		JLabel resultLabel = new JLabel();
 		resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		resultLabel.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		resultLabel.setBounds(98, 186, 250, 26);
+		resultLabel.setBounds(104, 223, 250, 26);
 		frame.getContentPane().add(resultLabel);
 		
 		JTextField numField = new JTextField();
@@ -71,8 +73,11 @@ public class HorizAddWindow {
 					if(numField.getText() != null && numField.getText() != "") {
 						if(Integer.parseInt(numField.getText()) == result) {
 						resultLabel.setText("Correct");
+						correct++;
+						total++;
 						} else {
 						resultLabel.setText("Incorrect");
+						total++;
 						}
 					}
 					else {
@@ -109,6 +114,17 @@ public class HorizAddWindow {
 		});
 		skipButton.setBounds(325, 27, 101, 35);
 		frame.getContentPane().add(skipButton);
+		
+		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TutorMain.vertGrade(conn, total, correct, id, 5);
+				frame.dispose();
+			}
+		});
+		btnExit.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnExit.setBounds(153, 176, 141, 36);
+		frame.getContentPane().add(btnExit);
 		
 	}
 
